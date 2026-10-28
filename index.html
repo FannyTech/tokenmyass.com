@@ -202,9 +202,36 @@ html:not([data-l=fr]) .fr, html[data-l=fr] .en{display:none!important}
 .lang button{all:unset;cursor:pointer;font:600 13px "JetBrains Mono",monospace;padding:7px 11px;border-radius:9px;color:var(--mute)}
 .lang button[aria-pressed=true]{background:var(--lime);color:#0a0a0a}
 .lang button:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+
+/* intro splash */
+.intro{position:fixed;inset:0;z-index:1000;background:#000;display:grid;place-items:center;overflow:hidden;animation:introOut .55s ease 2s forwards}
+.intro-in{display:flex;flex-direction:column;align-items:center;gap:22px;text-align:center;padding:0 16px}
+.intro-rocket{font-size:clamp(56px,10vw,84px);line-height:1;transform:rotate(-45deg);filter:drop-shadow(0 0 18px rgba(186,255,0,.55));animation:liftoff 1.7s cubic-bezier(.45,0,.85,.35) .15s both}
+.intro-logo{font:700 clamp(40px,8vw,76px)/1 "Space Grotesk",system-ui,sans-serif;letter-spacing:-.02em;color:#fff;opacity:0;animation:fadeIn .5s ease .1s forwards}
+.intro-logo span{color:#BAFF00}
+.intro-slogan{font-family:"Permanent Marker",cursive;text-transform:uppercase;font-size:clamp(20px,3.6vw,32px);color:#fff;opacity:0;animation:fadeIn .6s ease .7s forwards}
+@keyframes liftoff{
+  0%{transform:translateY(0) rotate(-45deg)}
+  12%{transform:translate(-2px,1px) rotate(-45deg)}
+  18%{transform:translate(2px,-1px) rotate(-45deg)}
+  24%{transform:translateY(0) rotate(-45deg)}
+  100%{transform:translateY(-75vh) rotate(-45deg)}
+}
+@keyframes fadeIn{to{opacity:1}}
+@keyframes introOut{to{opacity:0;visibility:hidden}}
+@media(prefers-reduced-motion:reduce){
+  .intro-rocket{animation:none}
+}
 </style>
 </head>
 <body>
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="intro-in">
+    <div class="intro-rocket">🚀</div>
+    <div class="intro-logo">Token<span>My</span>Ass</div>
+    <div class="intro-slogan">Before you ape… Ask the Donkey.</div>
+  </div>
+</div>
 
 <header id="top">
   <div class="wrap nav">
@@ -438,6 +465,8 @@ html:not([data-l=fr]) .fr, html[data-l=fr] .en{display:none!important}
 
 <script>
 (function(){
+  var intro=document.getElementById('intro');
+  if(intro){intro.addEventListener('animationend',function(e){if(e.target===intro&&e.animationName==='introOut')intro.remove()});}
   var root=document.documentElement, KEY='tma-lang';
   function setLang(l){
     root.setAttribute('data-l',l); root.lang=l;
