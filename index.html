@@ -1,23 +1,26 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TokenMyAss — Before you ape… ask the Donkey.</title>
-<meta name="description" content="Colle l'adresse d'un token. L'âne vérifie liquidité, contrat, détenteurs et créateur en quelques secondes, avant que tu mettes un centime. ETH, BSC, Base, Polygon, Solana.">
+<meta name="description" content="Paste a token address. The Donkey checks liquidity, contract, holders and creator in seconds, before you put a cent in. ETH, BSC, Base, Polygon, Solana.">
 <meta name="theme-color" content="#050505">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="canonical" href="https://tokenmyass.com/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://tokenmyass.com/">
 <meta property="og:title" content="TokenMyAss — Before you ape… ask the Donkey.">
-<meta property="og:description" content="We check the bullshit before you ape in. Scanner anti-rug multi-chaînes.">
+<meta property="og:description" content="We check the bullshit before you ape in. Multi-chain rug-pull scanner.">
 <meta property="og:image" content="https://tokenmyass.com/assets/og-image.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
 <style>
+@font-face{font-family:"Permanent Marker";src:url(assets/fonts/permanent-marker-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Space Grotesk";src:url(assets/fonts/space-grotesk-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Space Grotesk";src:url(assets/fonts/space-grotesk-latin-700-normal.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url(assets/fonts/jetbrains-mono-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url(assets/fonts/jetbrains-mono-latin-600-normal.woff2) format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:Caveat;src:url(assets/fonts/caveat-latin-600-normal.woff2) format("woff2");font-weight:600;font-display:swap}
 :root{
   --bg:#050505; --bg2:#0c0d0a; --card:#101210; --line:#232720;
   --ink:#f3f4ef; --mute:#9aa093; --lime:#b6ec1e; --lime-2:#8fc70e;
@@ -62,7 +65,6 @@ header.scrolled{border-color:var(--line)}
 .nav ul a:hover{color:var(--lime)}
 .nav .btn{padding:10px 18px;font-size:15px}
 @media(max-width:860px){.nav ul{display:none}}
-@media(max-width:480px){.nav .btn{display:none}}
 
 /* hero */
 .hero{padding:clamp(28px,5vw,60px) 0 0;overflow:hidden}
@@ -193,23 +195,33 @@ footer{border-top:1px solid var(--line);padding:46px 0 60px;color:var(--mute);fo
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s,transform .7s}
 .reveal.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}}
+
+/* language */
+html:not([data-l=fr]) .fr, html[data-l=fr] .en{display:none!important}
+.lang{display:inline-flex;border:1.5px solid var(--line);border-radius:12px;padding:3px;gap:2px}
+.lang button{all:unset;cursor:pointer;font:600 13px "JetBrains Mono",monospace;padding:7px 11px;border-radius:9px;color:var(--mute)}
+.lang button[aria-pressed=true]{background:var(--lime);color:#0a0a0a}
+.lang button:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
 </style>
 </head>
 <body>
 
 <header id="top">
   <div class="wrap nav">
-    <a class="logo" href="#top" aria-label="TokenMyAss, accueil">
+    <a class="logo" href="#top" aria-label="TokenMyAss">
       <img src="assets/logo.webp" alt="" width="44" height="44">
       <div><b>Token<span>My</span>Ass</b><small>We check the <em>bullshit</em> before you ape in.</small></div>
     </a>
     <ul>
-      <li><a href="#comment">Comment ça marche</a></li>
-      <li><a href="#checks">Ce que l'âne vérifie</a></li>
-      <li><a href="#verdict">Le verdict</a></li>
+      <li><a href="#how"><span class="en">How it works</span><span class="fr">Comment ça marche</span></a></li>
+      <li><a href="#checks"><span class="en">What it checks</span><span class="fr">Ce que l'âne vérifie</span></a></li>
+      <li><a href="#verdict"><span class="en">The verdict</span><span class="fr">Le verdict</span></a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
-    <a class="btn btn-lime" href="#lancement">Être prévenu</a>
+    <div class="lang" role="group" aria-label="Language / Langue">
+      <button type="button" data-set="en" aria-pressed="true">EN</button>
+      <button type="button" data-set="fr" aria-pressed="false">FR</button>
+    </div>
   </div>
 </header>
 
@@ -218,52 +230,60 @@ footer{border-top:1px solid var(--line);padding:46px 0 60px;color:var(--mute);fo
   <div class="wrap hero-grid">
     <div>
       <h1 class="brush"><span class="w">Before you ape…</span><span class="l">Ask the<br>Donkey.</span></h1>
-      <p class="lead">Colle l'adresse d'un token. L'âne passe au crible la liquidité, le contrat, les détenteurs et le créateur en quelques secondes, avant que tu y mettes un centime.</p>
+      <p class="lead en">Paste a token address. The Donkey sniffs out the liquidity, the contract, the holders and the creator in seconds, before you put a single cent in.</p>
+      <p class="lead fr">Colle l'adresse d'un token. L'âne passe au crible la liquidité, le contrat, les détenteurs et le créateur en quelques secondes, avant que tu y mettes un centime.</p>
       <div class="cta-row">
-        <a class="btn btn-lime" href="#lancement">Ask the Donkey <span class="arr">→</span></a>
-        <a class="btn btn-ghost" href="#comment">Comment ça marche</a>
+        <a class="btn btn-lime" href="#how"><span class="en">See how it works</span><span class="fr">Voir comment ça marche</span> <span class="arr">→</span></a>
+        <a class="btn btn-ghost" href="#verdict"><span class="en">See a verdict</span><span class="fr">Voir un verdict</span></a>
       </div>
-      <div class="chains" aria-label="Blockchains supportées">
+      <div class="chains" aria-label="Supported blockchains">
         <span class="chip on">ETH</span><span class="chip">BSC</span><span class="chip">Base</span><span class="chip">Polygon</span><span class="chip">SOL</span>
       </div>
     </div>
     <div class="mascot">
-      <img src="assets/mascot.webp" alt="La mascotte TokenMyAss, un âne en sweat à capuche et lunettes pixel, qui pointe du doigt" width="355" height="743">
-      <div class="tag hand">t'es sûr, bro ?</div>
+      <img src="assets/mascot.webp" alt="TokenMyAss mascot: a donkey in a hoodie and pixel sunglasses, pointing at you" width="355" height="743">
+      <div class="tag hand"><span class="en">you sure, bro?</span><span class="fr">t'es sûr, bro ?</span></div>
     </div>
   </div>
 </section>
 
-
 <div class="marquee" aria-hidden="true">
-  <div class="track">
+  <div class="track en">
+    <span><b>●</b> Rug pull</span><span><b>●</b> Honeypot</span><span><b>●</b> Unlocked liquidity</span><span><b>●</b> Creator holds 45% of supply</span><span><b>●</b> Unverified contract</span><span><b>●</b> Dev dumping</span><span><b>●</b> No trading pair</span><span><b>●</b> Fake hype</span>
+    <span><b>●</b> Rug pull</span><span><b>●</b> Honeypot</span><span><b>●</b> Unlocked liquidity</span><span><b>●</b> Creator holds 45% of supply</span><span><b>●</b> Unverified contract</span><span><b>●</b> Dev dumping</span><span><b>●</b> No trading pair</span><span><b>●</b> Fake hype</span>
+  </div>
+  <div class="track fr">
     <span><b>●</b> Rug pull</span><span><b>●</b> Honeypot</span><span><b>●</b> Liquidité non verrouillée</span><span><b>●</b> Créateur qui détient 45 % de l'offre</span><span><b>●</b> Contrat non vérifié</span><span><b>●</b> Dev qui dump</span><span><b>●</b> Aucune paire de trading</span><span><b>●</b> Faux hype</span>
     <span><b>●</b> Rug pull</span><span><b>●</b> Honeypot</span><span><b>●</b> Liquidité non verrouillée</span><span><b>●</b> Créateur qui détient 45 % de l'offre</span><span><b>●</b> Contrat non vérifié</span><span><b>●</b> Dev qui dump</span><span><b>●</b> Aucune paire de trading</span><span><b>●</b> Faux hype</span>
   </div>
 </div>
 
-<section id="comment">
+<section id="how">
   <div class="wrap">
-    <span class="eyebrow">Comment ça marche</span>
-    <h2 class="brush">Une question. <span class="lime">Deux réponses.</span></h2>
-    <p class="lead">Pas de jargon, pas de tableau Excel. Tu demandes, l'âne répond.</p>
+    <span class="eyebrow"><span class="en">How it works</span><span class="fr">Comment ça marche</span></span>
+    <h2 class="brush"><span class="en">One question. <span class="lime">Two answers.</span></span><span class="fr">Une question. <span class="lime">Deux réponses.</span></span></h2>
+    <p class="lead en">No jargon, no spreadsheets. You ask, the Donkey answers.</p>
+    <p class="lead fr">Pas de jargon, pas de tableau Excel. Tu demandes, l'âne répond.</p>
     <div class="steps">
       <div class="step reveal">
         <div class="n brush">1</div>
-        <h3>Colle l'adresse</h3>
-        <p>Choisis la chaîne (ETH, BSC, Base, Polygon ou Solana) et colle l'adresse du contrat du token qui te fait de l'œil.</p>
+        <h3><span class="en">Paste the address</span><span class="fr">Colle l'adresse</span></h3>
+        <p class="en">Pick the chain (ETH, BSC, Base, Polygon or Solana) and paste the contract address of the token that caught your eye.</p>
+        <p class="fr">Choisis la chaîne (ETH, BSC, Base, Polygon ou Solana) et colle l'adresse du contrat du token qui te fait de l'œil.</p>
         <div class="answers"><span class="chip on">ETH</span><span class="chip">SOL</span><span class="chip">Base</span></div>
       </div>
       <div class="step reveal">
         <div class="n brush">2</div>
-        <h3>L'âne renifle</h3>
-        <p>Liquidité, répartition des détenteurs, code du contrat, activité du créateur, signaux de la communauté : tout y passe.</p>
+        <h3><span class="en">The Donkey sniffs</span><span class="fr">L'âne renifle</span></h3>
+        <p class="en">Liquidity, holder distribution, contract code, creator activity, community signals: nothing gets past it.</p>
+        <p class="fr">Liquidité, répartition des détenteurs, code du contrat, activité du créateur, signaux de la communauté : tout y passe.</p>
         <ul class="loader"><li>Checking liquidity…</li><li>Reading holders…</li><li>Inspecting contract…</li><li>Final verdict…</li></ul>
       </div>
       <div class="step reveal">
         <div class="n brush">3</div>
-        <h3>Le verdict tombe</h3>
-        <p>Deux réponses possibles, un score sur 100 et la liste des raisons. Tu sais pourquoi, pas juste quoi.</p>
+        <h3><span class="en">The verdict drops</span><span class="fr">Le verdict tombe</span></h3>
+        <p class="en">Two possible answers, a score out of 100 and the list of reasons. You know why, not just what.</p>
+        <p class="fr">Deux réponses possibles, un score sur 100 et la liste des raisons. Tu sais pourquoi, pas juste quoi.</p>
         <div class="answers"><span class="pill ok">SEEMS LEGIT</span><span class="pill ko">SEEMS SCAM</span></div>
       </div>
     </div>
@@ -272,73 +292,113 @@ footer{border-top:1px solid var(--line);padding:46px 0 60px;color:var(--mute);fo
 
 <section id="checks" style="padding-top:0">
   <div class="wrap">
-    <span class="eyebrow">Ce que l'âne vérifie</span>
-    <h2 class="brush">Il ne lit pas le whitepaper.<br><span class="lime">Il lit la blockchain.</span></h2>
-    <p class="lead">Les promesses sur Telegram, c'est gratuit. Ce qui est écrit on-chain, beaucoup moins.</p>
+    <span class="eyebrow"><span class="en">What the Donkey checks</span><span class="fr">Ce que l'âne vérifie</span></span>
+    <h2 class="brush"><span class="en">It doesn't read the whitepaper.<br><span class="lime">It reads the blockchain.</span></span><span class="fr">Il ne lit pas le whitepaper.<br><span class="lime">Il lit la blockchain.</span></span></h2>
+    <p class="lead en">Promises on Telegram are free. What's written on-chain is a lot harder to fake.</p>
+    <p class="lead fr">Les promesses sur Telegram, c'est gratuit. Ce qui est écrit on-chain, beaucoup moins.</p>
     <div class="checks">
-      <div class="check reveal"><div class="ic">💧</div><h3>Liquidité</h3><p>Y a-t-il une vraie paire de trading ? La liquidité est-elle verrouillée ou peut-elle disparaître demain matin ?</p><span class="q">→ peut-on retirer le tapis ?</span></div>
-      <div class="check reveal"><div class="ic">🍯</div><h3>Achat / revente</h3><p>L'âne simule un achat puis une revente. Si tu peux entrer mais pas sortir, c'est un honeypot.</p><span class="q">→ pourras-tu revendre ?</span></div>
-      <div class="check reveal"><div class="ic">📜</div><h3>Contrat</h3><p>Code source vérifié ou boîte noire ? Fonctions suspectes, taxes cachées, droits du propriétaire.</p><span class="q">→ que fait vraiment le code ?</span></div>
-      <div class="check reveal"><div class="ic">🐋</div><h3>Détenteurs</h3><p>L'offre est-elle répartie, ou trois wallets peuvent-ils faire s'effondrer le cours en un clic ?</p><span class="q">→ qui tient le token ?</span></div>
-      <div class="check reveal"><div class="ic">🕵️</div><h3>Créateur</h3><p>Quelle part de l'offre garde le créateur, et qu'a-t-il fait avec ses précédents tokens ?</p><span class="q">→ le dev va-t-il dumper ?</span></div>
-      <div class="check reveal"><div class="ic">📣</div><h3>Signaux sociaux</h3><p>Communauté réelle ou hype fabriquée ? L'âne regarde aussi ce qui se passe autour du token.</p><span class="q">→ la hype est-elle vraie ?</span></div>
+      <div class="check reveal"><div class="ic">💧</div>
+        <h3><span class="en">Liquidity</span><span class="fr">Liquidité</span></h3>
+        <p class="en">Is there a real trading pair? Is the liquidity locked, or can it vanish tomorrow morning?</p>
+        <p class="fr">Y a-t-il une vraie paire de trading ? La liquidité est-elle verrouillée ou peut-elle disparaître demain matin ?</p>
+        <span class="q"><span class="en">→ can they pull the rug?</span><span class="fr">→ peut-on retirer le tapis ?</span></span></div>
+      <div class="check reveal"><div class="ic">🍯</div>
+        <h3><span class="en">Buy / sell</span><span class="fr">Achat / revente</span></h3>
+        <p class="en">The Donkey simulates a buy, then a sell. If you can get in but not out, it's a honeypot.</p>
+        <p class="fr">L'âne simule un achat puis une revente. Si tu peux entrer mais pas sortir, c'est un honeypot.</p>
+        <span class="q"><span class="en">→ will you be able to sell?</span><span class="fr">→ pourras-tu revendre ?</span></span></div>
+      <div class="check reveal"><div class="ic">📜</div>
+        <h3><span class="en">Contract</span><span class="fr">Contrat</span></h3>
+        <p class="en">Verified source code or a black box? Suspicious functions, hidden taxes, owner privileges.</p>
+        <p class="fr">Code source vérifié ou boîte noire ? Fonctions suspectes, taxes cachées, droits du propriétaire.</p>
+        <span class="q"><span class="en">→ what does the code really do?</span><span class="fr">→ que fait vraiment le code ?</span></span></div>
+      <div class="check reveal"><div class="ic">🐋</div>
+        <h3><span class="en">Holders</span><span class="fr">Détenteurs</span></h3>
+        <p class="en">Is supply spread out, or can three wallets crash the price in one click?</p>
+        <p class="fr">L'offre est-elle répartie, ou trois wallets peuvent-ils faire s'effondrer le cours en un clic ?</p>
+        <span class="q"><span class="en">→ who holds the token?</span><span class="fr">→ qui tient le token ?</span></span></div>
+      <div class="check reveal"><div class="ic">🕵️</div>
+        <h3><span class="en">Creator</span><span class="fr">Créateur</span></h3>
+        <p class="en">How much of the supply does the creator keep, and what happened to their previous tokens?</p>
+        <p class="fr">Quelle part de l'offre garde le créateur, et qu'a-t-il fait avec ses précédents tokens ?</p>
+        <span class="q"><span class="en">→ is the dev about to dump?</span><span class="fr">→ le dev va-t-il dumper ?</span></span></div>
+      <div class="check reveal"><div class="ic">📣</div>
+        <h3><span class="en">Social signals</span><span class="fr">Signaux sociaux</span></h3>
+        <p class="en">Real community or manufactured hype? The Donkey also looks at what's happening around the token.</p>
+        <p class="fr">Communauté réelle ou hype fabriquée ? L'âne regarde aussi ce qui se passe autour du token.</p>
+        <span class="q"><span class="en">→ is the hype real?</span><span class="fr">→ la hype est-elle vraie ?</span></span></div>
     </div>
   </div>
 </section>
 
 <section id="verdict" style="padding-top:0">
   <div class="wrap">
-    <span class="eyebrow">Le verdict</span>
+    <span class="eyebrow"><span class="en">The verdict</span><span class="fr">Le verdict</span></span>
     <h2 class="brush">The Donkey approves…<br><span style="color:var(--red)">or not today, bro.</span></h2>
-    <p class="lead">Chaque scan se termine par un verdict clair, un score et les raisons derrière. Exemples d'écrans :</p>
+    <p class="lead en">Every scan ends with a clear verdict, a score and the reasons behind it. Example screens:</p>
+    <p class="lead fr">Chaque scan se termine par un verdict clair, un score et les raisons derrière. Exemples d'écrans :</p>
     <div class="verdicts">
       <article class="vcard ok reveal">
-        <div class="example">EXEMPLE</div>
+        <div class="example"><span class="en">EXAMPLE</span><span class="fr">EXEMPLE</span></div>
         <div class="vhead"><div class="vlabel brush">Seems legit</div><div class="score">82<small>/100</small></div></div>
         <div class="vmeta">ETH · AUTOMATED CHECKS ONLY · DYOR</div>
-        <ul><li>✅ Achat et revente simulés avec succès.</li><li>✅ Liquidité saine.</li><li>✅ Code source vérifié.</li><li>✅ Détention répartie.</li></ul>
+        <ul class="en"><li>✅ Buy and sell simulated successfully.</li><li>✅ Healthy liquidity.</li><li>✅ Verified source code.</li><li>✅ Well-distributed holdings.</li></ul>
+        <ul class="fr"><li>✅ Achat et revente simulés avec succès.</li><li>✅ Liquidité saine.</li><li>✅ Code source vérifié.</li><li>✅ Détention répartie.</li></ul>
         <div class="quip brush">The Donkey approves. 🫏✅</div>
       </article>
       <article class="vcard ko reveal">
-        <div class="example">EXEMPLE</div>
+        <div class="example"><span class="en">EXAMPLE</span><span class="fr">EXEMPLE</span></div>
         <div class="vhead"><div class="vlabel brush">Seems scam</div><div class="score">12<small>/100</small></div></div>
         <div class="vmeta">BSC · AUTOMATED SIGNALS ONLY · DYOR</div>
-        <ul><li>🚨 Aucune paire de trading : token non échangeable.</li><li>🚨 Le créateur détient 45 % de l'offre.</li><li>⚠️ Contrat non vérifié.</li><li>⚠️ Liquidité non verrouillée.</li></ul>
+        <ul class="en"><li>🚨 No trading pair: token can't be traded.</li><li>🚨 Creator holds 45% of the supply.</li><li>⚠️ Unverified contract.</li><li>⚠️ Liquidity not locked.</li></ul>
+        <ul class="fr"><li>🚨 Aucune paire de trading : token non échangeable.</li><li>🚨 Le créateur détient 45 % de l'offre.</li><li>⚠️ Contrat non vérifié.</li><li>⚠️ Liquidité non verrouillée.</li></ul>
         <div class="quip brush">Not today, bro. 🫏🚫</div>
       </article>
     </div>
-    <div class="share">Partage le verdict en un tap : <span class="s">𝕏 X</span><span class="s">✈️ Telegram</span><span class="s">🟢 WhatsApp</span><span class="s">🎮 Discord</span></div>
+    <div class="share"><span class="en">Share the verdict in one tap:</span><span class="fr">Partage le verdict en un tap :</span> <span class="s">𝕏 X</span><span class="s">✈️ Telegram</span><span class="s">🟢 WhatsApp</span><span class="s">🎮 Discord</span></div>
   </div>
 </section>
 
 <section class="app">
   <div class="wrap app-grid">
-    <div class="phone reveal"><img src="assets/app-screen.webp" alt="Écran d'accueil de l'application TokenMyAss : champ pour coller l'adresse du contrat et bouton Ask the Donkey" width="863" height="1822"></div>
+    <div class="phone reveal"><img src="assets/app-screen.webp" alt="TokenMyAss app home screen: a field to paste the contract address and an Ask the Donkey button" width="863" height="1822"></div>
     <div>
-      <span class="eyebrow">L'appli</span>
-      <h2 class="brush">Dans ta poche,<br><span class="lime">avant chaque achat.</span></h2>
-      <p class="lead">Pensée pour le moment exact où le FOMO monte : tu vois passer un token, tu colles l'adresse, tu as ta réponse.</p>
+      <span class="eyebrow"><span class="en">The app</span><span class="fr">L'appli</span></span>
+      <h2 class="brush"><span class="en">In your pocket,<br><span class="lime">before every buy.</span></span><span class="fr">Dans ta poche,<br><span class="lime">avant chaque achat.</span></span></h2>
+      <p class="lead en">Built for the exact moment the FOMO kicks in: you spot a token, paste the address, get your answer.</p>
+      <p class="lead fr">Pensée pour le moment exact où le FOMO monte : tu vois passer un token, tu colles l'adresse, tu as ta réponse.</p>
       <div class="feats">
-        <div class="feat"><div class="ic">🫏</div><div><h3>Scan instantané</h3><p>Une adresse, une chaîne, un bouton. Rien d'autre à configurer.</p></div></div>
-        <div class="feat"><div class="ic">📜</div><div><h3>Historique des verdicts</h3><p>Retrouve tes derniers scans et leur score.</p></div></div>
-        <div class="feat"><div class="ic">🕶️</div><div><h3>Mode privé</h3><p>Active-le et l'appli ne garde aucun scan sur ton appareil. Ce que tu regardes, ça te regarde.</p></div></div>
-        <div class="feat"><div class="ic">🔔</div><div><h3>Donkey Alerts <span class="soon">BIENTÔT</span></h3><p>Surveillance des tokens suivis : retrait de liquidité, ventes du créateur, déblocage de supply.</p></div></div>
+        <div class="feat"><div class="ic">🫏</div><div>
+          <h3><span class="en">Instant scan</span><span class="fr">Scan instantané</span></h3>
+          <p class="en">One address, one chain, one button. Nothing else to set up.</p>
+          <p class="fr">Une adresse, une chaîne, un bouton. Rien d'autre à configurer.</p></div></div>
+        <div class="feat"><div class="ic">📜</div><div>
+          <h3><span class="en">Verdict history</span><span class="fr">Historique des verdicts</span></h3>
+          <p class="en">Find your latest scans and their scores.</p>
+          <p class="fr">Retrouve tes derniers scans et leur score.</p></div></div>
+        <div class="feat"><div class="ic">🕶️</div><div>
+          <h3><span class="en">Private mode</span><span class="fr">Mode privé</span></h3>
+          <p class="en">Turn it on and the app keeps no scans on your device. What you look at is your business.</p>
+          <p class="fr">Active-le et l'appli ne garde aucun scan sur ton appareil. Ce que tu regardes, ça te regarde.</p></div></div>
+        <div class="feat"><div class="ic">🔔</div><div>
+          <h3>Donkey Alerts <span class="soon"><span class="en">SOON</span><span class="fr">BIENTÔT</span></span></h3>
+          <p class="en">Watch the tokens you follow: liquidity pulls, creator sells, supply unlocks.</p>
+          <p class="fr">Surveillance des tokens suivis : retrait de liquidité, ventes du créateur, déblocage de supply.</p></div></div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="launch" id="lancement">
+<section class="launch" id="launch">
   <div class="bgimg" aria-hidden="true"></div>
   <div class="wrap">
     <img class="icon" src="assets/icon.png" alt="" width="84" height="84">
-    <span class="eyebrow">Lancement imminent</span>
+    <span class="eyebrow"><span class="en">Launching soon</span><span class="fr">Lancement imminent</span></span>
     <h2 class="brush">Before you ape…<br><span class="lime">Ask the Donkey.</span></h2>
     <p class="hand lime">One question. Two answers.</p>
-    <a class="btn btn-lime" href="#" data-todo="lien-principal">Être prévenu au lancement <span class="arr">→</span></a>
     <div class="stores">
-      <div class="store">🍎 <span>Bientôt sur<b>App Store</b></span></div>
-      <div class="store">▶️ <span>Bientôt sur<b>Google Play</b></span></div>
+      <div class="store">🍎 <span><span class="en">Coming soon on</span><span class="fr">Bientôt sur</span><b>App Store</b></span></div>
+      <div class="store">▶️ <span><span class="en">Coming soon on</span><span class="fr">Bientôt sur</span><b>Google Play</b></span></div>
     </div>
   </div>
 </section>
@@ -346,39 +406,58 @@ footer{border-top:1px solid var(--line);padding:46px 0 60px;color:var(--mute);fo
 <section id="faq">
   <div class="wrap faq">
     <span class="eyebrow">FAQ</span>
-    <h2 class="brush">Les questions <span class="lime">qu'on nous pose</span></h2>
-    <details><summary>C'est quoi, TokenMyAss ?</summary><p>Un scanner de tokens crypto. Tu lui donnes l'adresse d'un contrat, il analyse les données on-chain (liquidité, contrat, détenteurs, créateur) et te dit si le token semble légitime ou s'il présente des signaux d'arnaque.</p></details>
-    <details><summary>Quelles blockchains sont supportées ?</summary><p>Ethereum, BNB Smart Chain, Base, Polygon et Solana.</p></details>
-    <details><summary>Le verdict est-il fiable à 100 % ?</summary><p>Non, et aucun outil ne l'est. Le verdict est une évaluation automatique à titre indicatif, basée sur des signaux on-chain. Il ne remplace pas tes propres recherches. Un token « Seems legit » peut quand même perdre toute sa valeur.</p></details>
-    <details><summary>Est-ce un conseil en investissement ?</summary><p>Non. TokenMyAss ne dit pas quoi acheter ni quand. Il t'aide à repérer des risques techniques. La décision, et le risque, restent les tiens. DYOR.</p></details>
-    <details><summary>Et ma vie privée ?</summary><p>Avec le mode privé activé, l'appli ne conserve aucun scan sur ton appareil.</p></details>
-    <details><summary>Pourquoi un âne ?</summary><p>Parce que l'âne est têtu, prudent, et qu'il ne saute jamais dans un ravin juste parce que tout le troupeau y va. Exactement ce qu'il te faut avant d'aper.</p></details>
+    <h2 class="brush"><span class="en">Questions <span class="lime">people ask us</span></span><span class="fr">Les questions <span class="lime">qu'on nous pose</span></span></h2>
+    <div class="en">
+      <details><summary>What is TokenMyAss?</summary><p>A crypto token scanner. Give it a contract address, it analyses the on-chain data (liquidity, contract, holders, creator) and tells you whether the token looks legit or shows signs of a scam.</p></details>
+      <details><summary>Which blockchains are supported?</summary><p>Ethereum, BNB Smart Chain, Base, Polygon and Solana.</p></details>
+      <details><summary>Is the verdict 100% reliable?</summary><p>No, and no tool is. The verdict is an automated, indicative assessment based on on-chain signals. It doesn't replace your own research. A "Seems legit" token can still lose all its value.</p></details>
+      <details><summary>Is this investment advice?</summary><p>No. TokenMyAss doesn't tell you what to buy or when. It helps you spot technical risks. The decision, and the risk, stay yours. DYOR.</p></details>
+      <details><summary>What about my privacy?</summary><p>With private mode on, the app keeps no scans on your device. This website uses no cookies and does not track you: we only count anonymous page visits.</p></details>
+      <details><summary>Why a donkey?</summary><p>Because a donkey is stubborn and careful, and never jumps off a cliff just because the whole herd does. Exactly what you need before you ape in.</p></details>
+    </div>
+    <div class="fr">
+      <details><summary>C'est quoi, TokenMyAss ?</summary><p>Un scanner de tokens crypto. Tu lui donnes l'adresse d'un contrat, il analyse les données on-chain (liquidité, contrat, détenteurs, créateur) et te dit si le token semble légitime ou s'il présente des signaux d'arnaque.</p></details>
+      <details><summary>Quelles blockchains sont supportées ?</summary><p>Ethereum, BNB Smart Chain, Base, Polygon et Solana.</p></details>
+      <details><summary>Le verdict est-il fiable à 100 % ?</summary><p>Non, et aucun outil ne l'est. Le verdict est une évaluation automatique à titre indicatif, basée sur des signaux on-chain. Il ne remplace pas tes propres recherches. Un token « Seems legit » peut quand même perdre toute sa valeur.</p></details>
+      <details><summary>Est-ce un conseil en investissement ?</summary><p>Non. TokenMyAss ne dit pas quoi acheter ni quand. Il t'aide à repérer des risques techniques. La décision, et le risque, restent les tiens. DYOR.</p></details>
+      <details><summary>Et ma vie privée ?</summary><p>Avec le mode privé activé, l'appli ne conserve aucun scan sur ton appareil. Ce site n'utilise aucun cookie et ne te piste pas : on compte seulement les visites, de façon anonyme.</p></details>
+      <details><summary>Pourquoi un âne ?</summary><p>Parce que l'âne est têtu, prudent, et qu'il ne saute jamais dans un ravin juste parce que tout le troupeau y va. Exactement ce qu'il te faut avant d'aper.</p></details>
+    </div>
   </div>
 </section>
 </main>
 
 <footer>
   <div class="wrap">
-    <div class="foot">
-      <div>
-        <a class="logo" href="#top"><img src="assets/logo.webp" alt="" width="44" height="44"><div><b>Token<span>My</span>Ass</b><small>We check the <em>bullshit</em> before you ape in.</small></div></a>
-        <p class="disc">Pas un conseil financier. Évaluation automatique à titre indicatif, ni verdict catégorique ni recommandation d'investissement. Les crypto-actifs sont très risqués et tu peux perdre la totalité de ta mise. Fais toujours tes propres recherches (DYOR).</p>
-      </div>
-      <div class="socials" aria-label="Réseaux sociaux">
-        <a href="#" data-todo="x" aria-label="X">𝕏</a>
-        <a href="#" data-todo="telegram" aria-label="Telegram">✈️</a>
-        <a href="#" data-todo="discord" aria-label="Discord">🎮</a>
-      </div>
-    </div>
-    <p style="margin-top:30px">© 2026 TokenMyAss</p>
+    <a class="logo" href="#top"><img src="assets/logo.webp" alt="" width="44" height="44"><div><b>Token<span>My</span>Ass</b><small>We check the <em>bullshit</em> before you ape in.</small></div></a>
+    <p class="disc en">Not financial advice. Automated, indicative assessment only: not a definitive verdict nor an investment recommendation. Crypto-assets are highly risky and you can lose your entire stake. Always do your own research (DYOR).</p>
+    <p class="disc fr">Pas un conseil financier. Évaluation automatique à titre indicatif, ni verdict catégorique ni recommandation d'investissement. Les crypto-actifs sont très risqués et tu peux perdre la totalité de ta mise. Fais toujours tes propres recherches (DYOR).</p>
+    <p style="margin-top:30px">© 2026 TokenMyAss · <span class="en">No cookies, no tracking.</span><span class="fr">Pas de cookies, pas de pistage.</span></p>
   </div>
 </footer>
 
 <script>
-const h=document.querySelector('header');
-addEventListener('scroll',()=>h.classList.toggle('scrolled',scrollY>10),{passive:true});
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+(function(){
+  var root=document.documentElement, KEY='tma-lang';
+  function setLang(l){
+    root.setAttribute('data-l',l); root.lang=l;
+    document.querySelectorAll('.lang button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.set===l)});
+    document.title = l==='fr' ? 'TokenMyAss — Avant d’aper… demande à l’âne.' : 'TokenMyAss — Before you ape… ask the Donkey.';
+  }
+  var saved=null; try{saved=localStorage.getItem(KEY)}catch(e){}
+  setLang(saved || ((navigator.language||'').toLowerCase().indexOf('fr')===0 ? 'fr' : 'en'));
+  document.querySelectorAll('.lang button').forEach(function(b){
+    b.addEventListener('click',function(){setLang(b.dataset.set); try{localStorage.setItem(KEY,b.dataset.set)}catch(e){}});
+  });
+  var h=document.querySelector('header');
+  addEventListener('scroll',function(){h.classList.toggle('scrolled',scrollY>10)},{passive:true});
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+  } else document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in')});
+})();
 </script>
+<!-- Visitor count: GoatCounter (open source, no cookies, no personal data) -->
+<script data-goatcounter="https://tokenmyass.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>
