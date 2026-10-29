@@ -204,33 +204,24 @@ html:not([data-l=fr]) .fr, html[data-l=fr] .en{display:none!important}
 .lang button:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
 
 /* intro splash */
-.intro{position:fixed;inset:0;z-index:1000;background:#000;display:grid;place-items:center;overflow:hidden;animation:introOut .55s ease 2s forwards}
-.intro-in{display:flex;flex-direction:column;align-items:center;gap:22px;text-align:center;padding:0 16px}
-.intro-rocket{font-size:clamp(56px,10vw,84px);line-height:1;transform:rotate(-45deg);filter:drop-shadow(0 0 18px rgba(186,255,0,.55));animation:liftoff 1.7s cubic-bezier(.45,0,.85,.35) .15s both}
-.intro-logo{font:700 clamp(40px,8vw,76px)/1 "Space Grotesk",system-ui,sans-serif;letter-spacing:-.02em;color:#fff;opacity:0;animation:fadeIn .5s ease .1s forwards}
-.intro-logo span{color:#BAFF00}
-.intro-slogan{font-family:"Permanent Marker",cursive;text-transform:uppercase;font-size:clamp(20px,3.6vw,32px);color:#fff;opacity:0;animation:fadeIn .6s ease .7s forwards}
-@keyframes liftoff{
-  0%{transform:translateY(0) rotate(-45deg)}
-  12%{transform:translate(-2px,1px) rotate(-45deg)}
-  18%{transform:translate(2px,-1px) rotate(-45deg)}
-  24%{transform:translateY(0) rotate(-45deg)}
-  100%{transform:translateY(-75vh) rotate(-45deg)}
-}
+.intro{position:fixed;inset:0;z-index:1000;background:#000;overflow:hidden;animation:introOut .55s ease 2s forwards}
+.intro-rocket{position:absolute;top:33%;left:-155%;width:min(155%,1150px);max-width:none;mix-blend-mode:screen;animation:flyRocket 1.8s cubic-bezier(.19,.75,.33,1) .05s forwards}
+.intro-logo{position:absolute;top:18%;left:0;right:0;text-align:center;font:700 clamp(40px,8vw,76px)/1 "Space Grotesk",system-ui,sans-serif;letter-spacing:-.02em;color:#fff;opacity:0;animation:fadeIn .5s ease .1s forwards}
+.intro-logo span{color:var(--lime)}
+.intro-slogan{position:absolute;bottom:18%;left:0;right:0;text-align:center;font-family:"Permanent Marker",cursive;text-transform:uppercase;font-size:clamp(20px,3.6vw,32px);color:#fff;opacity:0;animation:fadeIn .6s ease .7s forwards}
+@keyframes flyRocket{0%{left:-155%;transform:scale(.85)}60%{left:-14%;transform:scale(1)}100%{left:82%;transform:scale(1.05)}}
 @keyframes fadeIn{to{opacity:1}}
 @keyframes introOut{to{opacity:0;visibility:hidden}}
 @media(prefers-reduced-motion:reduce){
-  .intro-rocket{animation:none}
+  .intro-rocket{animation:none;left:50%;transform:translateX(-50%) scale(1);width:min(120%,1000px);top:32%}
 }
 </style>
 </head>
 <body>
 <div class="intro" id="intro" aria-hidden="true">
-  <div class="intro-in">
-    <div class="intro-rocket">🚀</div>
-    <div class="intro-logo">Token<span>My</span>Ass</div>
-    <div class="intro-slogan">Before you ape… Ask the Donkey.</div>
-  </div>
+  <img class="intro-rocket" src="assets/rocket.webp" alt="" width="1200" height="600">
+  <div class="intro-logo">Token<span>My</span>Ass</div>
+  <div class="intro-slogan">Before you ape… Ask the Donkey.</div>
 </div>
 
 <header id="top">
