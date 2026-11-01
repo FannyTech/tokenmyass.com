@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TokenMyAss — Before you ape… ask the Donkey.</title>
+<meta name="description" content="Paste a token address. The Donkey checks liquidity, contract, holders and creator in seconds, before you put a cent in. ETH, BSC, Base, Polygon, Solana.">
+<meta name="theme-color" content="#050505">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="canonical" href="https://tokenmyass.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tokenmyass.com/">
+<meta property="og:title" content="TokenMyAss — Before you ape… ask the Donkey.">
+<meta property="og:description" content="We check the bullshit before you ape in. Multi-chain rug-pull scanner.">
+<meta property="og:image" content="https://tokenmyass.com/assets/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+@font-face{font-family:"Permanent Marker";src:url(assets/fonts/permanent-marker-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Space Grotesk";src:url(assets/fonts/space-grotesk-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Space Grotesk";src:url(assets/fonts/space-grotesk-latin-700-normal.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url(assets/fonts/jetbrains-mono-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url(assets/fonts/jetbrains-mono-latin-600-normal.woff2) format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:Caveat;src:url(assets/fonts/caveat-latin-600-normal.woff2) format("woff2");font-weight:600;font-display:swap}
+:root{
+  --bg:#050505; --bg2:#0c0d0a; --card:#101210; --line:#232720;
+  --ink:#f3f4ef; --mute:#9aa093; --lime:#b6ec1e; --lime-2:#8fc70e;
+  --red:#ff3b3b; --amber:#ffb020;
+  --glow:0 0 24px rgba(182,236,30,.35);
+  --r:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.6 "Space Grotesk",system-ui,sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(1160px,100% - 32px);margin-inline:auto}
+.brush{font-family:"Permanent Marker",cursive;font-weight:400;line-height:.95;letter-spacing:.01em;text-transform:uppercase}
+.lime{color:var(--lime)}
+.mono{font-family:"JetBrains Mono",monospace}
+.hand{font-family:Caveat,cursive}
+.eyebrow{font:600 13px/1 "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--lime)}
+h2{font-size:clamp(34px,5vw,58px);margin:.35em 0 .3em}
+.lead{color:var(--mute);font-size:clamp(17px,1.6vw,19px);max-width:60ch}
+section{padding:clamp(72px,10vw,120px) 0;position:relative}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:12px;padding:16px 26px;border-radius:14px;font-weight:700;font-size:17px;transition:transform .15s,box-shadow .15s,background .15s;cursor:pointer;border:0}
+.btn-lime{background:var(--lime);color:#0a0a0a;box-shadow:var(--glow)}
+.btn-lime:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(182,236,30,.55)}
+.btn-lime .arr{width:30px;height:30px;border-radius:50%;background:#0a0a0a;color:var(--lime);display:grid;place-items:center;font-size:16px}
+.btn-ghost{border:1.5px solid var(--line);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--lime);color:var(--lime)}
+
+/* nav */
+header{position:sticky;top:0;z-index:50;background:rgba(5,5,5,.78);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .2s}
+header.scrolled{border-color:var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo{display:flex;align-items:center;gap:12px}
+.logo img{width:44px;height:44px;border-radius:12px;object-fit:cover;object-position:top}
+.logo b{font-size:22px;letter-spacing:-.01em}
+.logo b span{color:var(--lime)}
+.logo small{display:block;font-size:11px;color:var(--mute);margin-top:-2px}
+.logo small em{color:var(--red);font-style:normal}
+.nav ul{display:flex;gap:28px;list-style:none;font-size:15px;color:var(--mute)}
+.nav ul a:hover{color:var(--lime)}
+.nav .btn{padding:10px 18px;font-size:15px}
+@media(max-width:860px){.nav ul{display:none}}
+
+/* hero */
+.hero{padding:clamp(28px,5vw,60px) 0 0;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(600px 500px at 78% 40%,rgba(182,236,30,.16),transparent 70%);pointer-events:none}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;align-items:end;gap:24px;position:relative}
+.hero h1{font-size:clamp(52px,9vw,118px);padding-top:clamp(16px,4vw,48px)}
+.hero h1 .w{color:var(--ink);display:block;font-size:.62em;transform:rotate(-3deg);transform-origin:left;margin-bottom:.12em}
+.hero h1 .l{color:var(--lime);display:block;text-shadow:0 0 30px rgba(182,236,30,.25)}
+.hero p.lead{margin:26px 0 30px}
+.chains{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 48px}
+.chip{font:600 12px/1 "JetBrains Mono",monospace;padding:8px 12px;border-radius:99px;border:1px solid var(--line);color:var(--mute)}
+.chip.on{background:var(--lime);color:#0a0a0a;border-color:var(--lime)}
+.cta-row{display:flex;flex-wrap:wrap;gap:14px}
+.mascot{position:relative;align-self:end;justify-self:end;width:min(470px,100%)}
+.mascot img{width:100%;filter:drop-shadow(0 0 40px rgba(182,236,30,.15))}
+.tag{position:absolute;left:-6%;top:22%;background:#0a0a0a;border:1.5px solid var(--lime);color:var(--lime);padding:10px 14px;border-radius:14px;font-size:22px;transform:rotate(-6deg);box-shadow:var(--glow)}
+@media(max-width:860px){
+  .hero-grid{grid-template-columns:1fr}
+  .mascot{justify-self:center;width:min(360px,86%);margin-top:-10px}
+  .tag{left:-4%;font-size:19px}
+}
+
+/* scanner bar (decorative, links to how it works) */
+.scanbar{margin-top:-2px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg2)}
+.scanbar .wrap{display:flex;gap:14px;align-items:center;padding:22px 0;flex-wrap:wrap}
+.addr{flex:1;min-width:240px;display:flex;align-items:center;gap:12px;border:1.5px solid rgba(182,236,30,.55);border-radius:14px;padding:15px 18px;color:var(--mute);font:400 15px "JetBrains Mono",monospace;box-shadow:inset 0 0 20px rgba(182,236,30,.06);overflow:hidden;white-space:nowrap}
+.addr .caret{display:inline-block;width:9px;height:18px;background:var(--lime);animation:blink 1s steps(1) infinite;vertical-align:middle}
+@keyframes blink{50%{opacity:0}}
+
+/* marquee */
+.marquee{overflow:hidden;border-bottom:1px solid var(--line);padding:18px 0;background:#070707}
+.track{display:flex;gap:48px;width:max-content;animation:mq 38s linear infinite;font:600 15px "JetBrains Mono",monospace;color:var(--mute);text-transform:uppercase;letter-spacing:.06em}
+.track span b{color:var(--red)}
+@keyframes mq{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.track,.addr .caret{animation:none}}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:46px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:28px;position:relative}
+.step .n{font-size:64px;color:var(--lime);opacity:.9;line-height:1}
+.step h3{font-size:22px;margin:14px 0 8px}
+.step p{color:var(--mute);font-size:16px}
+.loader{margin-top:18px;font:400 13px/2 "JetBrains Mono",monospace;color:var(--mute)}
+.loader li{list-style:none}
+.loader li::before{content:"✓ ";color:var(--lime)}
+.loader li:last-child::before{content:"⟳ ";color:var(--amber)}
+.answers{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.pill{padding:8px 12px;border-radius:10px;font:700 13px "JetBrains Mono",monospace}
+.pill.ok{background:rgba(182,236,30,.12);color:var(--lime);border:1px solid rgba(182,236,30,.4)}
+.pill.ko{background:rgba(255,59,59,.1);color:var(--red);border:1px solid rgba(255,59,59,.4)}
+@media(max-width:860px){.steps{grid-template-columns:1fr}}
+
+/* checks */
+.checks{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:46px}
+.check{border:1px solid var(--line);border-radius:var(--r);padding:26px;background:linear-gradient(180deg,#0e100c,#090a08);transition:border-color .2s,transform .2s}
+.check:hover{border-color:rgba(182,236,30,.5);transform:translateY(-3px)}
+.check .ic{font-size:28px}
+.check h3{font-size:20px;margin:12px 0 6px}
+.check p{color:var(--mute);font-size:15.5px}
+.check .q{display:block;margin-top:14px;font:400 13px "JetBrains Mono",monospace;color:var(--lime)}
+@media(max-width:960px){.checks{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.checks{grid-template-columns:1fr}}
+
+/* verdicts */
+.verdicts{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:46px}
+.vcard{border-radius:22px;padding:28px;border:1.5px solid;position:relative;overflow:hidden}
+.vcard.ok{border-color:rgba(182,236,30,.55);background:radial-gradient(400px 220px at 100% 0,rgba(182,236,30,.13),transparent),#0a0c08}
+.vcard.ko{border-color:rgba(255,59,59,.5);background:radial-gradient(400px 220px at 100% 0,rgba(255,59,59,.12),transparent),#0d0808}
+.vhead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.vlabel{font-size:clamp(34px,4vw,46px)}
+.ok .vlabel{color:var(--lime)} .ko .vlabel{color:var(--red)}
+.score{font:700 40px "JetBrains Mono",monospace;text-align:right;line-height:1}
+.score small{font-size:16px;color:var(--mute)}
+.ok .score{color:var(--lime)} .ko .score{color:var(--red)}
+.vmeta{font:400 12px "JetBrains Mono",monospace;color:var(--mute);margin:10px 0 20px;letter-spacing:.04em}
+.vcard ul{list-style:none;display:grid;gap:10px;font-size:16px}
+.vcard li{padding:11px 14px;border-radius:12px;background:rgba(255,255,255,.035)}
+.quip{margin-top:20px;font-size:28px}
+.ok .quip{color:var(--lime)} .ko .quip{color:var(--red)}
+.example{position:absolute;top:14px;right:-34px;transform:rotate(35deg);background:#222;color:var(--mute);font:600 10px "JetBrains Mono",monospace;padding:4px 40px;letter-spacing:.1em}
+.share{display:flex;gap:8px;flex-wrap:wrap;margin-top:28px;justify-content:center;color:var(--mute);font-size:15px;align-items:center}
+.share span.s{border:1px solid var(--line);border-radius:10px;padding:7px 12px;font-size:14px;color:var(--ink)}
+@media(max-width:860px){.verdicts{grid-template-columns:1fr}}
+
+/* app */
+.app{background:var(--bg2);border-block:1px solid var(--line)}
+.app-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(30px,6vw,80px);align-items:center}
+.phone{width:min(320px,80%);margin-inline:auto;border-radius:44px;padding:10px;background:#1a1c18;box-shadow:0 0 0 1px #2c3028,0 30px 80px rgba(0,0,0,.6),0 0 90px rgba(182,236,30,.18);position:relative}
+.phone img{border-radius:36px;width:100%}
+.phone::before{content:"";position:absolute;top:20px;left:50%;transform:translateX(-50%);width:90px;height:24px;border-radius:20px;background:#000;z-index:2}
+.feats{display:grid;gap:14px;margin-top:30px}
+.feat{display:flex;gap:16px;align-items:flex-start;padding:18px;border:1px solid var(--line);border-radius:16px;background:var(--card)}
+.feat .ic{font-size:24px;width:44px;height:44px;flex:none;border-radius:12px;display:grid;place-items:center;background:rgba(182,236,30,.08);border:1px solid rgba(182,236,30,.25)}
+.feat h3{font-size:18px}
+.feat p{color:var(--mute);font-size:15px}
+.soon{font:600 10px "JetBrains Mono",monospace;background:var(--amber);color:#111;border-radius:6px;padding:3px 7px;margin-left:8px;vertical-align:middle;letter-spacing:.06em}
+@media(max-width:860px){.app-grid{grid-template-columns:1fr}}
+
+/* rocket */
+.launch{text-align:center;overflow:hidden;padding-bottom:clamp(90px,12vw,150px)}
+.launch .bgimg{position:absolute;inset:0;background:url(assets/rocket.webp) center/cover no-repeat;opacity:.75}
+.launch::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--bg) 0%,rgba(5,5,5,.25) 30%,rgba(5,5,5,.25) 70%,var(--bg) 100%)}
+.launch .wrap{position:relative;z-index:1}
+.launch h2{font-size:clamp(42px,7vw,88px)}
+.launch .hand{font-size:clamp(28px,3.4vw,40px);margin:8px 0 34px}
+.launch .icon{width:84px;margin:0 auto 18px;filter:drop-shadow(0 0 18px rgba(182,236,30,.6))}
+.stores{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.store{display:flex;align-items:center;gap:10px;border:1px solid #333;background:rgba(0,0,0,.55);border-radius:12px;padding:10px 16px;font-size:14px;color:var(--mute)}
+.store b{display:block;color:var(--ink);font-size:16px}
+
+/* faq */
+.faq{max-width:820px}
+details{border-bottom:1px solid var(--line);padding:22px 0}
+summary{cursor:pointer;font-size:19px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:20px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--lime);font-size:26px;line-height:1;transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{color:var(--mute);margin-top:12px;max-width:68ch}
+
+/* footer */
+footer{border-top:1px solid var(--line);padding:46px 0 60px;color:var(--mute);font-size:14px}
+.foot{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:flex-start}
+.contact{margin-top:22px;font-size:16px;color:var(--ink)}
+.contact a{color:var(--lime);font-weight:700;border-bottom:1px solid rgba(186,255,0,.35)}
+.contact a:hover{border-color:var(--lime)}
+.disc{max-width:62ch;margin-top:18px;font-size:13px;line-height:1.6;padding:14px 16px;border:1px dashed #333;border-radius:12px}
+.socials{display:flex;gap:10px}
+.socials a{width:42px;height:42px;border:1px solid var(--line);border-radius:12px;display:grid;place-items:center;font-size:16px;color:var(--ink)}
+.socials a:hover{border-color:var(--lime);color:var(--lime)}
+
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s,transform .7s}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}}
+
+/* language */
+html:not([data-l=fr]) .fr, html[data-l=fr] .en{display:none!important}
+.lang{display:inline-flex;border:1.5px solid var(--line);border-radius:12px;padding:3px;gap:2px}
+.lang button{all:unset;cursor:pointer;font:600 13px "JetBrains Mono",monospace;padding:7px 11px;border-radius:9px;color:var(--mute)}
+.lang button[aria-pressed=true]{background:var(--lime);color:#0a0a0a}
+.lang button:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+
+/* intro splash */
+.intro{position:fixed;inset:0;z-index:1000;background:#000;overflow:hidden;animation:introOut .5s ease 2.5s forwards}
+.intro-logo{position:absolute;top:16%;left:0;right:0;text-align:center;font:700 clamp(40px,8vw,76px)/1 "Space Grotesk",system-ui,sans-serif;letter-spacing:-.02em;color:#fff;opacity:0;animation:fadeIn .5s ease .1s forwards}
+.intro-logo span{color:var(--lime)}
+.intro-slogan{position:absolute;bottom:14%;left:0;right:0;text-align:center;font-family:"Permanent Marker",cursive;text-transform:uppercase;font-size:clamp(20px,3.6vw,32px);color:#fff;opacity:0;animation:fadeIn .6s ease 1s forwards}
+@keyframes fadeIn{to{opacity:1}}
+@keyframes introOut{to{opacity:0;visibility:hidden}}
+.intro-canvas{position:absolute;inset:0;width:100%;height:100%}
+.intro-rocket{position:absolute;top:50%;left:50%;width:min(110%,900px);max-width:none;transform:translate(-50%,-50%);mix-blend-mode:screen}
+.intro.js .intro-rocket{display:none}
+</style>
+</head>
+<body>
+<div class="intro" id="intro" aria-hidden="true">
+  <img class="intro-rocket" src="assets/rocket.webp" alt="" width="1200" height="600">
+  <canvas class="intro-canvas" id="introCanvas"></canvas>
+  <div class="intro-logo">Token<span>My</span>Ass</div>
+  <div class="intro-slogan">Before you ape… Ask the Donkey.</div>
+</div>
+
+<header id="top">
+  <div class="wrap nav">
+    <a class="logo" href="#top" aria-label="TokenMyAss">
+      <img src="assets/logo.webp" alt="" width="44" height="44">
+      <div><b>Token<span>My</span>Ass</b><small>We check the <em>bullshit</em> before you ape in.</small></div>
+    </a>
+    <ul>
+      <li><a href="#how"><span class="en">How it works</span><span class="fr">Comment ça marche</span></a></li>
+      <li><a href="#checks"><span class="en">What it checks</span><span class="fr">Ce que l'âne vérifie</span></a></li>
+      <li><a href="#verdict"><span class="en">The verdict</span><span class="fr">Le verdict</span></a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <div class="lang" role="group" aria-label="Language / Langue">
+      <button type="button" data-set="en" aria-pressed="true">EN</button>
+      <button type="button" data-set="fr" aria-pressed="false">FR</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1 class="brush"><span class="w">Before you ape…</span><span class="l">Ask the<br>Donkey.</span></h1>
+      <p class="lead en">Paste a token address. The Donkey sniffs out the liquidity, the contract, the holders and the creator in seconds, before you put a single cent in.</p>
+      <p class="lead fr">Colle l'adresse d'un token. L'âne passe au crible la liquidité, le contrat, les détenteurs et le créateur en quelques secondes, avant que tu y mettes un centime.</p>
+      <div class="cta-row">
+        <a class="btn btn-lime" href="#how"><span class="en">See how it works</span><span class="fr">Voir comment ça marche</span> <span class="arr">→</span></a>
+        <a class="btn btn-ghost" href="#verdict"><span class="en">See a verdict</span><span class="fr">Voir un verdict</span></a>
+      </div>
+      <div class="chains" aria-label="Supported blockchains">
+        <span class="chip on">ETH</span><span class="chip">BSC</span><span class="chip">Base</span><span class="chip">Polygon</span><span class="chip">SOL</span>
+      </div>
+    </div>
+    <div class="mascot">
+      <img src="assets/mascot.webp" alt="TokenMyAss mascot: a donkey in a hoodie and pixel sunglasses, pointing at you" width="355" height="743">
+      <div class="tag hand"><span class="en">you sure, bro?</span><span class="fr">t'es sûr, bro ?</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="track en">
+    <span><b>●</b> Rug pull</span><span><b>●</b> Honeypot</span><span><b>●</b> Unlocked liquidity</span><span><b>●</b> Ultra-concentrated supply</span><span><b>●</b> Unverified contract</span><span><b>●</b> Dev dumping</span><span><b>●</b> No trading pair</span><span><b>●</b> Fake hype</span>
+    <span><b>●</b> Rug pull</span><span><b>●</b> Honeypot</span><span><b>●</b> Unlocked liquidity</span><span><b>●</b> Ultra-concentrated supply</span><span><b>●</b> Unverified contract</span><span><b>●</b> Dev dumping</span><span><b>●</b> No trading pair</span><span><b>●</b> Fake hype</span>
+  </div>
+  <div class="track fr">
+    <span><b>●</b> Rug pull</span><span><b>●</b> Honeypot</span><span><b>●</b> Liquidité non verrouillée</span><span><b>●</b> Offre ultra-concentrée</span><span><b>●</b> Contrat non vérifié</span><span><b>●</b> Dev qui dump</span><span><b>●</b> Aucune paire de trading</span><span><b>●</b> Faux hype</span>
+    <span><b>●</b> Rug pull</span><span><b>●</b> Honeypot</span><span><b>●</b> Liquidité non verrouillée</span><span><b>●</b> Offre ultra-concentrée</span><span><b>●</b> Contrat non vérifié</span><span><b>●</b> Dev qui dump</span><span><b>●</b> Aucune paire de trading</span><span><b>●</b> Faux hype</span>
+  </div>
+</div>
+
+<section id="how">
+  <div class="wrap">
+    <span class="eyebrow"><span class="en">How it works</span><span class="fr">Comment ça marche</span></span>
+    <h2 class="brush"><span class="en">One question. <span class="lime">Two answers.</span></span><span class="fr">Une question. <span class="lime">Deux réponses.</span></span></h2>
+    <p class="lead en">No jargon, no spreadsheets. You ask, the Donkey answers.</p>
+    <p class="lead fr">Pas de jargon, pas de tableau Excel. Tu demandes, l'âne répond.</p>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="n brush">1</div>
+        <h3><span class="en">Paste the address</span><span class="fr">Colle l'adresse</span></h3>
+        <p class="en">Pick the chain (ETH, BSC, Base, Polygon or Solana) and paste the contract address of the token that caught your eye.</p>
+        <p class="fr">Choisis la chaîne (ETH, BSC, Base, Polygon ou Solana) et colle l'adresse du contrat du token qui te fait de l'œil.</p>
+        <div class="answers"><span class="chip on">ETH</span><span class="chip">SOL</span><span class="chip">Base</span></div>
+      </div>
+      <div class="step reveal">
+        <div class="n brush">2</div>
+        <h3><span class="en">The Donkey sniffs</span><span class="fr">L'âne renifle</span></h3>
+        <p class="en">Liquidity, holder distribution, contract code, creator activity, scam blacklists: nothing gets past it.</p>
+        <p class="fr">Liquidité, répartition des détenteurs, code du contrat, activité du créateur, listes noires d’arnaques : tout y passe.</p>
+        <ul class="loader"><li>Checking liquidity…</li><li>Reading holders…</li><li>Inspecting contract…</li><li>Final verdict…</li></ul>
+      </div>
+      <div class="step reveal">
+        <div class="n brush">3</div>
+        <h3><span class="en">The verdict drops</span><span class="fr">Le verdict tombe</span></h3>
+        <p class="en">Two possible answers, a score out of 100 and the list of reasons. You know why, not just what.</p>
+        <p class="fr">Deux réponses possibles, un score sur 100 et la liste des raisons. Tu sais pourquoi, pas juste quoi.</p>
+        <div class="answers"><span class="pill ok">SEEMS LEGIT</span><span class="pill ko">SEEMS SCAM</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="checks" style="padding-top:0">
+  <div class="wrap">
+    <span class="eyebrow"><span class="en">What the Donkey checks</span><span class="fr">Ce que l'âne vérifie</span></span>
+    <h2 class="brush"><span class="en">It doesn't read the whitepaper.<br><span class="lime">It reads the blockchain.</span></span><span class="fr">Il ne lit pas le whitepaper.<br><span class="lime">Il lit la blockchain.</span></span></h2>
+    <p class="lead en">Promises on Telegram are free. What's written on-chain is a lot harder to fake.</p>
+    <p class="lead fr">Les promesses sur Telegram, c'est gratuit. Ce qui est écrit on-chain, beaucoup moins.</p>
+    <div class="checks">
+      <div class="check reveal"><div class="ic">💧</div>
+        <h3><span class="en">Liquidity</span><span class="fr">Liquidité</span></h3>
+        <p class="en">Is there a real trading pair? Is the liquidity locked, or can it vanish tomorrow morning?</p>
+        <p class="fr">Y a-t-il une vraie paire de trading ? La liquidité est-elle verrouillée ou peut-elle disparaître demain matin ?</p>
+        <span class="q"><span class="en">→ can they pull the rug?</span><span class="fr">→ peut-on retirer le tapis ?</span></span></div>
+      <div class="check reveal"><div class="ic">🍯</div>
+        <h3><span class="en">Buy / sell</span><span class="fr">Achat / revente</span></h3>
+        <p class="en">The Donkey simulates a buy, then a sell, on a copy of the blockchain, with no real transaction and no money involved. If you can get in but not out, it's a honeypot.</p>
+        <p class="fr">L’âne simule un achat puis une revente — sur une copie de la blockchain, sans transaction réelle ni argent engagé. Si tu peux entrer mais pas sortir, c’est un honeypot.</p>
+        <span class="q"><span class="en">→ will you really be able to sell?</span><span class="fr">→ pourras-tu vraiment revendre ?</span></span></div>
+      <div class="check reveal"><div class="ic">📜</div>
+        <h3><span class="en">Contract</span><span class="fr">Contrat</span></h3>
+        <p class="en">Verified source code or a black box? Suspicious functions, hidden taxes, owner privileges.</p>
+        <p class="fr">Code source vérifié ou boîte noire ? Fonctions suspectes, taxes cachées, droits du propriétaire.</p>
+        <span class="q"><span class="en">→ what does the code really do?</span><span class="fr">→ que fait vraiment le code ?</span></span></div>
+      <div class="check reveal"><div class="ic">🐋</div>
+        <h3><span class="en">Holders</span><span class="fr">Détenteurs</span></h3>
+        <p class="en">Is supply spread out, or can three wallets crash the price in one click?</p>
+        <p class="fr">L'offre est-elle répartie, ou trois wallets peuvent-ils faire s'effondrer le cours en un clic ?</p>
+        <span class="q"><span class="en">→ who holds the token?</span><span class="fr">→ qui tient le token ?</span></span></div>
+      <div class="check reveal"><div class="ic">🕵️</div>
+        <h3><span class="en">Creator</span><span class="fr">Créateur</span></h3>
+        <p class="en">What powers does the creator keep over the contract (minting tokens, pausing trading, blacklisting wallets), and what does their on-chain history say?</p>
+        <p class="fr">Quels pouvoirs garde le créateur sur le contrat — créer des tokens, suspendre les échanges, blacklister des wallets — et que dit son historique on-chain ?</p>
+        <span class="q"><span class="en">→ does the dev still control everything?</span><span class="fr">→ garde-t-il la main sur tout ?</span></span></div>
+      <div class="check reveal"><div class="ic">🚩</div>
+        <h3><span class="en">Already flagged?</span><span class="fr">Déjà signalé ?</span></h3>
+        <p class="en">The Donkey cross-checks the address against known scam databases and on-chain blacklists. If this token has already trapped people, it knows.</p>
+        <p class="fr">L’âne croise l’adresse avec les bases d’arnaques connues et les listes noires on-chain. Si ce token a déjà piégé des gens, il le sait.</p>
+        <span class="q"><span class="en">→ is it already listed as a scam?</span><span class="fr">→ est-il déjà fiché comme scam ?</span></span></div>
+    </div>
+  </div>
+</section>
+
+<section id="verdict" style="padding-top:0">
+  <div class="wrap">
+    <span class="eyebrow"><span class="en">The verdict</span><span class="fr">Le verdict</span></span>
+    <h2 class="brush">The Donkey approves…<br><span style="color:var(--red)">or not today, bro.</span></h2>
+    <p class="lead en">Every scan ends with a clear verdict, a score and the reasons behind it. Example screens:</p>
+    <p class="lead fr">Chaque scan se termine par un verdict clair, un score et les raisons derrière. Exemples d'écrans :</p>
+    <div class="verdicts">
+      <article class="vcard ok reveal">
+        <div class="example"><span class="en">EXAMPLE</span><span class="fr">EXEMPLE</span></div>
+        <div class="vhead"><div class="vlabel brush">Seems legit</div><div class="score">96<small>/100</small></div></div>
+        <div class="vmeta">ETH · AUTOMATED CHECKS ONLY · DYOR</div>
+        <ul class="en"><li>✅ Buy and sell simulated successfully.</li><li>✅ Healthy liquidity.</li><li>✅ Verified source code.</li><li>✅ Well-distributed holdings.</li></ul>
+        <ul class="fr"><li>✅ Achat et revente simulés avec succès.</li><li>✅ Liquidité saine.</li><li>✅ Code source vérifié.</li><li>✅ Détention répartie.</li></ul>
+        <div class="quip brush">The Donkey approves. 🫏✅</div>
+      </article>
+      <article class="vcard ko reveal">
+        <div class="example"><span class="en">EXAMPLE</span><span class="fr">EXEMPLE</span></div>
+        <div class="vhead"><div class="vlabel brush">Seems scam</div><div class="score">12<small>/100</small></div></div>
+        <div class="vmeta">BSC · AUTOMATED SIGNALS ONLY · DYOR</div>
+        <ul class="en"><li>🚨 No trading pair: token can't be traded.</li><li>🚨 Ultra-concentrated supply: a few linked wallets control the token.</li><li>⚠️ Unverified contract.</li><li>⚠️ Liquidity not locked.</li></ul>
+        <ul class="fr"><li>🚨 Aucune paire de trading : token non échangeable.</li><li>🚨 Offre ultra-concentrée : quelques wallets liés contrôlent le token.</li><li>⚠️ Contrat non vérifié.</li><li>⚠️ Liquidité non verrouillée.</li></ul>
+        <div class="quip brush">Not today, bro. 🫏🚫</div>
+      </article>
+    </div>
+    <div class="share"><span class="en">Share the verdict in one tap:</span><span class="fr">Partage le verdict en un tap :</span> <span class="s">𝕏 X</span><span class="s">✈️ Telegram</span><span class="s">🟢 WhatsApp</span><span class="s">🎮 Discord</span></div>
+  </div>
+</section>
+
+<section class="app">
+  <div class="wrap app-grid">
+    <div class="phone reveal"><img src="assets/app-screen.webp" alt="TokenMyAss app home screen: a field to paste the contract address and an Ask the Donkey button" width="863" height="1822"></div>
+    <div>
+      <span class="eyebrow"><span class="en">The app</span><span class="fr">L'appli</span></span>
+      <h2 class="brush"><span class="en">In your pocket,<br><span class="lime">before every buy.</span></span><span class="fr">Dans ta poche,<br><span class="lime">avant chaque achat.</span></span></h2>
+      <p class="lead en">Built for the exact moment the FOMO kicks in: you spot a token, paste the address, get your answer.</p>
+      <p class="lead fr">Pensée pour le moment exact où le FOMO monte : tu vois passer un token, tu colles l'adresse, tu as ta réponse.</p>
+      <div class="feats">
+        <div class="feat"><div class="ic">🫏</div><div>
+          <h3><span class="en">Instant scan</span><span class="fr">Scan instantané</span></h3>
+          <p class="en">One address, one chain, one button. Nothing else to set up.</p>
+          <p class="fr">Une adresse, une chaîne, un bouton. Rien d'autre à configurer.</p></div></div>
+        <div class="feat"><div class="ic">📜</div><div>
+          <h3><span class="en">Verdict history</span><span class="fr">Historique des verdicts</span></h3>
+          <p class="en">Find your latest scans and their scores.</p>
+          <p class="fr">Retrouve tes derniers scans et leur score.</p></div></div>
+        <div class="feat"><div class="ic">🕶️</div><div>
+          <h3><span class="en">Private mode</span><span class="fr">Mode privé</span></h3>
+          <p class="en">Turn it on and the app keeps no scans on your device. What you look at is your business.</p>
+          <p class="fr">Active-le et l'appli ne garde aucun scan sur ton appareil. Ce que tu regardes, ça te regarde.</p></div></div>
+        <div class="feat"><div class="ic">🔔</div><div>
+          <h3>Donkey Alerts <span class="soon"><span class="en">SOON</span><span class="fr">BIENTÔT</span></span></h3>
+          <p class="en">Watch the tokens you follow: liquidity pulls, creator sells, supply unlocks.</p>
+          <p class="fr">Surveillance des tokens suivis : retrait de liquidité, ventes du créateur, déblocage de supply.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="launch" id="launch">
+  <div class="bgimg" aria-hidden="true"></div>
+  <div class="wrap">
+    <img class="icon" src="assets/icon.png" alt="" width="84" height="84">
+    <span class="eyebrow"><span class="en">Launching soon</span><span class="fr">Lancement imminent</span></span>
+    <h2 class="brush">Before you ape…<br><span class="lime">Ask the Donkey.</span></h2>
+    <p class="hand lime">One question. Two answers.</p>
+    <div class="stores">
+      <div class="store">🍎 <span><span class="en">Coming soon on</span><span class="fr">Bientôt sur</span><b>App Store</b></span></div>
+      <div class="store">▶️ <span><span class="en">Coming soon on</span><span class="fr">Bientôt sur</span><b>Google Play</b></span></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap faq">
+    <span class="eyebrow">FAQ</span>
+    <h2 class="brush"><span class="en">Questions <span class="lime">people ask us</span></span><span class="fr">Les questions <span class="lime">qu'on nous pose</span></span></h2>
+    <div class="en">
+      <details><summary>What is TokenMyAss?</summary><p>A crypto token scanner. Give it a contract address, it analyses the on-chain data (liquidity, contract, holders, creator) and tells you whether the token looks legit or shows signs of a scam.</p></details>
+      <details><summary>Which blockchains are supported?</summary><p>Ethereum, BNB Smart Chain, Base, Polygon and Solana.</p></details>
+      <details><summary>Is the verdict 100% reliable?</summary><p>No, and no tool is. The verdict is an automated, indicative assessment based on on-chain signals. It doesn't replace your own research. A "Seems legit" token can still lose all its value.</p></details>
+      <details><summary>Is this investment advice?</summary><p>No. TokenMyAss doesn't tell you what to buy or when. It helps you spot technical risks. The decision, and the risk, stay yours. DYOR.</p></details>
+      <details><summary>What about my privacy?</summary><p>With private mode on, the app keeps no scans on your device. This website uses no cookies and does not track you: we only count anonymous page visits.</p></details>
+      <details><summary>How can I reach you?</summary><p>Write to us at <a class="lime" href="mailto:contact@tokenmyass.com">contact@tokenmyass.com</a>.</p></details>
+      <details><summary>Why a donkey?</summary><p>Because a donkey is stubborn and careful, and never jumps off a cliff just because the whole herd does. Exactly what you need before you ape in.</p></details>
+    </div>
+    <div class="fr">
+      <details><summary>C'est quoi, TokenMyAss ?</summary><p>Un scanner de tokens crypto. Tu lui donnes l'adresse d'un contrat, il analyse les données on-chain (liquidité, contrat, détenteurs, créateur) et te dit si le token semble légitime ou s'il présente des signaux d'arnaque.</p></details>
+      <details><summary>Quelles blockchains sont supportées ?</summary><p>Ethereum, BNB Smart Chain, Base, Polygon et Solana.</p></details>
+      <details><summary>Le verdict est-il fiable à 100 % ?</summary><p>Non, et aucun outil ne l'est. Le verdict est une évaluation automatique à titre indicatif, basée sur des signaux on-chain. Il ne remplace pas tes propres recherches. Un token « Seems legit » peut quand même perdre toute sa valeur.</p></details>
+      <details><summary>Est-ce un conseil en investissement ?</summary><p>Non. TokenMyAss ne dit pas quoi acheter ni quand. Il t'aide à repérer des risques techniques. La décision, et le risque, restent les tiens. DYOR.</p></details>
+      <details><summary>Et ma vie privée ?</summary><p>Avec le mode privé activé, l'appli ne conserve aucun scan sur ton appareil. Ce site n'utilise aucun cookie et ne te piste pas : on compte seulement les visites, de façon anonyme.</p></details>
+      <details><summary>Comment vous contacter ?</summary><p>Écris-nous à <a class="lime" href="mailto:contact@tokenmyass.com">contact@tokenmyass.com</a>.</p></details>
+      <details><summary>Pourquoi un âne ?</summary><p>Parce que l'âne est têtu, prudent, et qu'il ne saute jamais dans un ravin juste parce que tout le troupeau y va. Exactement ce qu'il te faut avant d'aper.</p></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="logo" href="#top"><img src="assets/logo.webp" alt="" width="44" height="44"><div><b>Token<span>My</span>Ass</b><small>We check the <em>bullshit</em> before you ape in.</small></div></a>
+    <p class="contact"><span class="en">Contact us:</span><span class="fr">Nous contacter :</span> <a href="mailto:contact@tokenmyass.com">contact@tokenmyass.com</a></p>
+    <p class="disc en">Not financial advice. Automated, indicative assessment only: not a definitive verdict nor an investment recommendation. Crypto-assets are highly risky and you can lose your entire stake. Always do your own research (DYOR).</p>
+    <p class="disc fr">Pas un conseil financier. Évaluation automatique à titre indicatif, ni verdict catégorique ni recommandation d'investissement. Les crypto-actifs sont très risqués et tu peux perdre la totalité de ta mise. Fais toujours tes propres recherches (DYOR).</p>
+    <p style="margin-top:30px">© 2026 TokenMyAss · <span class="en">No cookies, no tracking.</span><span class="fr">Pas de cookies, pas de pistage.</span></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var intro=document.getElementById('intro');
+  if(intro){intro.addEventListener('animationend',function(e){if(e.target===intro&&e.animationName==='introOut')intro.remove()});}
+  var root=document.documentElement, KEY='tma-lang';
+  function setLang(l){
+    root.setAttribute('data-l',l); root.lang=l;
+    document.querySelectorAll('.lang button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.set===l)});
+    document.title = l==='fr' ? 'TokenMyAss — Avant d’aper… demande à l’âne.' : 'TokenMyAss — Before you ape… ask the Donkey.';
+  }
+  var saved=null; try{saved=localStorage.getItem(KEY)}catch(e){}
+  setLang(saved || ((navigator.language||'').toLowerCase().indexOf('fr')===0 ? 'fr' : 'en'));
+  document.querySelectorAll('.lang button').forEach(function(b){
+    b.addEventListener('click',function(){setLang(b.dataset.set); try{localStorage.setItem(KEY,b.dataset.set)}catch(e){}});
+  });
+  var h=document.querySelector('header');
+  addEventListener('scroll',function(){h.classList.toggle('scrolled',scrollY>10)},{passive:true});
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+  } else document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in')});
+})();
+
+/* Intro: rocket on a real, smooth loop (computed path, arc-length timing) */
+(function(){
+  var intro=document.getElementById('intro'), cv=document.getElementById('introCanvas');
+  if(!intro||!cv||!cv.getContext) return;
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce) return;                      // static rocket image stays, no movement
+  intro.classList.add('js');
+  var ctx=cv.getContext('2d'), img=new Image(), W,H,dpr,pts,len,total, start=null, DUR=2300, DELAY=100;
+  img.src='assets/rocket-sprite.webp';
+  function build(){
+    dpr=Math.min(window.devicePixelRatio||1,2); W=innerWidth; H=innerHeight;
+    cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+    var R=Math.min(W*.32,H*.2), cx=W*.5, cy=H*.52, by=cy+R;   // circle; bottom point (cx,by)
+    pts=[]; var i,t;
+    // 1) straight approach from off-screen left, heading right
+    var x0=-W*.06, n1=60;
+    for(i=0;i<n1;i++){ t=i/n1; pts.push([x0+(cx-x0)*t, by]); }
+    // 2) full circular loop (counter-clockwise on screen), tangent-continuous at the bottom
+    var n2=220;
+    for(i=0;i<n2;i++){ t=i/n2*2*Math.PI; pts.push([cx+R*Math.sin(t), cy+R*Math.cos(t)]); }
+    // 3) exit: quadratic curve from horizontal to a diagonal climb off-screen top-right
+    var ex=W*1.15, ey=-H*.2, kx=cx+(ex-cx)*.45, ky=by, n3=80;
+    for(i=0;i<=n3;i++){ t=i/n3; var u=1-t;
+      pts.push([u*u*cx+2*u*t*kx+t*t*ex, u*u*by+2*u*t*ky+t*t*ey]); }
+    len=[0]; for(i=1;i<pts.length;i++){ len.push(len[i-1]+Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1])); }
+    total=len[len.length-1];
+  }
+  function at(d){ // position + heading at distance d along the path
+    d=Math.max(0,Math.min(total,d)); var lo=0,hi=len.length-1;
+    while(hi-lo>1){ var m=(lo+hi)>>1; if(len[m]<d) lo=m; else hi=m; }
+    var a=pts[lo], b=pts[hi], f=(d-len[lo])/((len[hi]-len[lo])||1);
+    return {x:a[0]+(b[0]-a[0])*f, y:a[1]+(b[1]-a[1])*f, ang:Math.atan2(b[1]-a[1],b[0]-a[0])};
+  }
+  function ease(t){ return .78*t+.22*t*t; } // steady speed through the loop, gentle push on the way out
+  function frame(now){
+    if(!intro.isConnected) return;
+    if(start===null) start=now;
+    var t=Math.min(1,Math.max(0,(now-start-DELAY)/DUR)), d=total*Math.min(1,Math.max(0,ease(t)));
+    ctx.clearRect(0,0,W,H);
+    var size=Math.max(110,Math.min(W*.34,H*.3,300));          // rocket length on screen
+    // glowing trail that follows the curve
+    var trail=Math.min(total*.28, size*3.2), steps=40;
+    ctx.globalCompositeOperation='lighter'; ctx.lineCap='round';
+    for(var k=0;k<steps;k++){
+      var d1=d-trail*(k/steps), d2=d-trail*((k+1)/steps); if(d2<0) break;
+      var p1=at(d1), p2=at(d2), f=1-k/steps;
+      ctx.strokeStyle='rgba(186,255,0,'+(.55*f*f).toFixed(3)+')';
+      ctx.lineWidth=size*.16*f+1; ctx.shadowColor='rgba(186,255,0,.9)'; ctx.shadowBlur=18*f;
+      ctx.beginPath(); ctx.moveTo(p1.x,p1.y); ctx.lineTo(p2.x,p2.y); ctx.stroke();
+    }
+    ctx.shadowBlur=0; ctx.globalCompositeOperation='source-over';
+    // rocket, always pointing along the path
+    if(img.complete&&img.naturalWidth){
+      var p=at(d), h=size*img.naturalHeight/img.naturalWidth;
+      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.ang);
+      ctx.globalAlpha=Math.min(1,t*8);
+      ctx.drawImage(img,-size*.55,-h*.43,size,h); ctx.restore();
+    }
+    if(t<1) requestAnimationFrame(frame);
+  }
+  build(); addEventListener('resize',build);
+  requestAnimationFrame(frame);
+})();
+</script>
+<!-- Visitor count: GoatCounter (open source, no cookies, no personal data) -->
+<script data-goatcounter="https://tokenmyass.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
